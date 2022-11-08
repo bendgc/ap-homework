@@ -1,6 +1,9 @@
 from pathlib import Path
 from datetime import datetime as DateTime
 
+import sys 
+
+
 def scanv1(nom,ext) :
     p = Path('.') #liste les sous-dossiers
     list = p.glob(f"**/*.{ext}") #liste les fichiers ayant la bonne extension
@@ -16,3 +19,7 @@ def scanv1(nom,ext) :
         first line : {line}          
         """)
 
+path = sys.argv[1]
+ext = sys.argv[2]
+
+scanv1(path,ext)
