@@ -1,4 +1,5 @@
 import copy 
+import math 
 
 def parse(filename) :
     D = {}
@@ -40,4 +41,75 @@ def reachables(graph,s) :
     aux(graph,s)
     return(S)
 
+def shortest_distance(graph,v1,v2) : 
+    
+    visited = {v1 : 0}
 
+    while True :     
+        
+        edges = set()
+
+        for source, marque in visited.items() :
+            adj = graph[source]
+            for d, w in adj.items() :
+                if v2 in reachables(graph,d) and d not in visited :
+                    edges.add((d, marque + w))
+        
+        if not edges :
+            return(None)
+        
+        
+        shortest_length = math.inf
+        shortest_vertex = None
+        for edge in edges:
+            if edge[1] < shortest_length :
+                shortest_length = edge[1]
+                shortest_vertex = edge[0]
+        
+        if shortest_vertex == v2 :
+            return(shortest_length)
+        else :
+            visited[shortest_vertex] = shortest_length
+    
+
+G2 = {'v1': {'v3': 5, 'v2': 1},
+ 'v2': {'v3': 1, 'v4': 3, 'v5': 4},
+ 'v3': {'v4': 1},
+ 'v4': {'v5': 1, 'v6': 3},
+ 'v5': {'v6': 1}}
+
+print(shortest_distance(dict,'a','f'))
+
+def shortest_path(graph,v1,v2) :
+    visited = {v1 : [0,v1]}
+
+    while True :     
+        
+        edges = set()
+
+        for source, marque in visited.items() :
+            adj = graph[source]
+            for d, w in adj.items() :
+                if v2 in reachables(graph,d) and d not in visited :
+                    edges.add((d, marque[0] + w, tuple(marque[1:])))
+        
+        if not edges :
+            return(None)
+        
+        
+        shortest_length = math.inf
+        shortest_vertex = None
+        for edge in edges:
+            if edge[1] < shortest_length :
+                shortest_length = edge[1]
+                shortest_vertex = edge[0]
+        
+        if shortest_vertex == v2 :
+            l = list(edge[2])
+            return((shortest_length, l + [v2]))
+        else :
+            l = list(edge[2])
+            visited[shortest_vertex] = [shortest_length] + l + [shortest_vertex]
+
+
+print(shortest_path(G2,'v1','v6'))
