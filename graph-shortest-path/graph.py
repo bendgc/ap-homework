@@ -1,5 +1,6 @@
 import copy 
 import math 
+import requests
 
 def parse(filename) :
     D = {}
@@ -113,3 +114,14 @@ def shortest_path(graph,v1,v2) :
             visited[shortest_vertex] = [shortest_length] + chemin + [shortest_vertex]
 
 
+thrones_url = "https://raw.githubusercontent.com/pupimvictor/NetworkOfThrones/master/stormofswords.csv"
+
+get_request = requests.get(thrones_url)
+text_data = get_request.text
+text_data = text_data[21:]
+print(text_data[:200])
+with open('thrones.csv','w') as f:
+    f.write(text_data)
+
+thrones = parse('thrones.csv')
+print(len(reachables(thrones, 'Eddard')))
