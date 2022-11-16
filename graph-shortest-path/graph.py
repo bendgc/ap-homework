@@ -99,17 +99,17 @@ def shortest_path(graph,v1,v2) :
         
         shortest_length = math.inf
         shortest_vertex = None
+        chemin = []
         for edge in edges:
             if edge[1] < shortest_length :
                 shortest_length = edge[1]
                 shortest_vertex = edge[0]
+                chemin = list(edge[2])      
+        
         
         if shortest_vertex == v2 :
-            l = list(edge[2])
-            return((shortest_length, l + [v2]))
+            return((shortest_length, chemin + [v2]))
         else :
-            l = list(edge[2])
-            visited[shortest_vertex] = [shortest_length] + l + [shortest_vertex]
+            visited[shortest_vertex] = [shortest_length] + chemin + [shortest_vertex]
 
 
-print(shortest_path(G2,'v1','v6'))
